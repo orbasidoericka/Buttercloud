@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout - ShopApp')
+@section('title', 'Checkout - Buttercloud Bakery')
 
 @section('content')
     <h1 class="page-title">Checkout</h1>
@@ -17,30 +17,19 @@
                                 <span class="item-name">{{ $item['product']->name }}</span>
                                 <span class="item-qty">x{{ $item['quantity'] }}</span>
                             </div>
-                            <span class="item-price">${{ number_format($item['subtotal'], 2) }}</span>
+                            <span class="item-price">₱{{ number_format($item['subtotal'], 2) }}</span>
                         </div>
                     @endforeach
                 </div>
                 <div class="summary-total">
                     <span>Total</span>
-                    <span class="total-price">${{ number_format($total, 2) }}</span>
+                    <span class="total-price">₱{{ number_format($total, 2) }}</span>
                 </div>
             </div>
 
             <!-- Checkout Form -->
             <div class="checkout-form-container">
                 <h2>Customer Information</h2>
-                
-                <!-- ACID Information Box -->
-                <div class="acid-info">
-                    <h3>🔒 Secure Transaction (ACID Compliant)</h3>
-                    <ul>
-                        <li><strong>Atomicity:</strong> Your order is processed as a single unit - all or nothing.</li>
-                        <li><strong>Consistency:</strong> Stock levels are validated before processing.</li>
-                        <li><strong>Isolation:</strong> Your transaction is protected from concurrent operations.</li>
-                        <li><strong>Durability:</strong> Once confirmed, your order is permanently saved.</li>
-                    </ul>
-                </div>
 
                 <form action="{{ route('checkout.process') }}" method="POST" class="checkout-form">
                     @csrf
@@ -59,14 +48,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="customer_email">Email Address *</label>
-                        <input type="email" 
-                               id="customer_email" 
-                               name="customer_email" 
-                               value="{{ old('customer_email') }}" 
+                        <label for="contact_number">Contact Number *</label>
+                        <input type="tel" 
+                               id="contact_number" 
+                               name="contact_number" 
+                               value="{{ old('contact_number') }}" 
                                required
-                               placeholder="Enter your email">
-                        @error('customer_email')
+                               placeholder="09XXXXXXXXX"
+                               pattern="09[0-9]{9}"
+                               maxlength="11">
+                        <small style="color: #666; font-size: 0.85rem;">Format: 09XXXXXXXXX (11 digits)</small>
+                        @error('contact_number')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
@@ -85,7 +77,7 @@
                     <div class="checkout-actions">
                         <a href="{{ route('shop.cart') }}" class="btn btn-secondary">← Back to Cart</a>
                         <button type="submit" class="btn btn-primary btn-checkout">
-                            🔒 Place Order - ${{ number_format($total, 2) }}
+                            🔒 Place Order - ₱{{ number_format($total, 2) }}
                         </button>
                     </div>
                 </form>
@@ -150,7 +142,7 @@
 
         .item-price {
             font-weight: 500;
-            color: #667eea;
+            color: #D9C4B0;
         }
 
         .summary-total {
@@ -162,7 +154,7 @@
         }
 
         .total-price {
-            color: #667eea;
+            color: #D9C4B0;
         }
 
         .acid-info {
@@ -239,6 +231,7 @@
             flex: 1;
             padding: 1rem 2rem;
             font-size: 1.1rem;
+            background: linear-gradient(135deg, #BBDCE5 0%, #CFAB8D 100%);
         }
     </style>
 @endsection

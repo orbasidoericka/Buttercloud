@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Shopping Cart - ShopApp')
+@section('title', 'Your Order - Buttercloud Bakery')
 
 @section('content')
     <h1 class="page-title">Shopping Cart</h1>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="cart-item-info">
                         <div class="cart-item-name">{{ $item['product']->name }}</div>
-                        <div class="cart-item-price">${{ number_format($item['product']->price, 2) }} each</div>
+                        <div class="cart-item-price">₱{{ number_format($item['product']->price, 2) }} each</div>
                     </div>
                     <div class="cart-item-quantity">
                         <form action="{{ route('cart.update', $item['product']) }}" method="POST" style="display: flex; align-items: center; gap: 0.5rem;">
@@ -37,7 +37,7 @@
                         </form>
                     </div>
                     <div class="cart-item-subtotal">
-                        ${{ number_format($item['subtotal'], 2) }}
+                        ₱{{ number_format($item['subtotal'], 2) }}
                     </div>
                     <div class="cart-item-actions">
                         <form action="{{ route('cart.remove', $item['product']) }}" method="POST">
@@ -51,7 +51,7 @@
 
             <div class="cart-summary">
                 <div class="cart-total">
-                    Total: <span>${{ number_format($total, 2) }}</span>
+                    Total: <span>₱{{ number_format($total, 2) }}</span>
                 </div>
                 <div class="cart-actions">
                     <form action="{{ route('cart.clear') }}" method="POST">

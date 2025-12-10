@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('order_number')->unique();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('customer_name');
-            $table->string('customer_email');
+            $table->string('contact_number');
             $table->decimal('total_amount', 10, 2);
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->text('notes')->nullable();

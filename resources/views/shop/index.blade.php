@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Products - ShopApp')
+@section('title', 'Fresh Pastries - Buttercloud Bakery')
 
 @section('content')
-    <h1 class="page-title">Our Products</h1>
+    <h1 class="page-title">Fresh Baked Pastries</h1>
 
     @if($products->isEmpty())
         <div class="empty-cart">
@@ -25,7 +25,7 @@
                     <div class="product-info">
                         <h3 class="product-name">{{ $product->name }}</h3>
                         <p class="product-description">{{ $product->description }}</p>
-                        <div class="product-price">${{ number_format($product->price, 2) }}</div>
+                        <div class="product-price">₱{{ number_format($product->price, 2) }}</div>
                         <div class="product-stock {{ $product->stock < 5 ? 'low' : '' }}">
                             {{ $product->stock > 0 ? $product->stock . ' in stock' : 'Out of stock' }}
                         </div>

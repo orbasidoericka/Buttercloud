@@ -62,8 +62,11 @@ class CheckoutController extends Controller
         // Validate customer information
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
+            'contact_number' => ['required', 'regex:/^09\d{9}$/', 'digits:11'],
             'notes' => 'nullable|string|max:1000',
+        ], [
+            'contact_number.regex' => 'Contact number must start with 09 and be exactly 11 digits.',
+            'contact_number.digits' => 'Contact number must be exactly 11 digits.',
         ]);
 
         $cart = session()->get('cart', []);
@@ -167,7 +170,7 @@ class CheckoutController extends Controller
                 $order = Order::create([
                     'order_number' => Order::generateOrderNumber(),
                     'customer_name' => $validated['customer_name'],
-                    'customer_email' => $validated['customer_email'],
+                    'contact_number' => $validated['contact_number'],
                     'total_amount' => $totalAmount,
                     'status' => 'completed',
                     'notes' => $validated['notes'] ?? null,

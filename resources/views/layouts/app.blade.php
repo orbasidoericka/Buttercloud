@@ -20,7 +20,7 @@
 
         /* Navigation */
         nav {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #BBDCE5 0%, #D9C4B0 100%);
             padding: 1rem 2rem;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
@@ -150,11 +150,11 @@
             width: 100%;
             height: 200px;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ECEEDF 0%, #BBDCE5 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #D9C4B0;
             font-size: 3rem;
         }
 
@@ -182,7 +182,7 @@
         .product-price {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #667eea;
+            color: #D9C4B0;
             margin-bottom: 1rem;
         }
 
@@ -211,9 +211,10 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #BBDCE5 0%, #CFAB8D 100%);
+            color: #5a4a3a;
             width: 100%;
+            font-weight: 600;
         }
 
         .btn-primary:hover {
@@ -268,11 +269,11 @@
             width: 80px;
             height: 80px;
             border-radius: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ECEEDF 0%, #BBDCE5 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #D9C4B0;
             font-size: 1.5rem;
             flex-shrink: 0;
         }
@@ -287,7 +288,7 @@
         }
 
         .cart-item-price {
-            color: #667eea;
+            color: #D9C4B0;
             font-weight: 500;
         }
 
@@ -332,7 +333,7 @@
         }
 
         .cart-total span {
-            color: #667eea;
+            color: #D9C4B0;
         }
 
         .cart-actions {
@@ -385,7 +386,7 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="{{ route('shop.index') }}" class="logo">🛍️ ShopApp</a>
+            <a href="{{ route('shop.index') }}" class="logo">🧁 Buttercloud Bakery</a>
             <div class="nav-links">
                 <a href="{{ route('shop.index') }}">Products</a>
                 <a href="{{ route('orders.history') }}">Orders</a>
@@ -419,7 +420,7 @@
     </div>
 
     <footer>
-        <p>&copy; {{ date('Y') }} ShopApp. Built with Laravel.</p>
+        <p>&copy; {{ date('Y') }} Buttercloud Bakery. Freshly baked with love.</p>
     </footer>
 </body>
 </html>

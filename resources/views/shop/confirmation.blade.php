@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order Confirmed - ShopApp')
+@section('title', 'Order Confirmed - Buttercloud Bakery')
 
 @section('content')
     <div class="confirmation-container">
@@ -9,47 +9,12 @@
             <h1>Order Confirmed!</h1>
             <p class="order-number">Order #{{ $order->order_number }}</p>
 
-            <!-- ACID Success Indicators -->
-            <div class="acid-success">
-                <h3>Transaction Completed Successfully</h3>
-                <div class="acid-checks">
-                    <div class="acid-check">
-                        <span class="check-icon">✓</span>
-                        <div>
-                            <strong>Atomicity</strong>
-                            <p>All operations completed as a single unit</p>
-                        </div>
-                    </div>
-                    <div class="acid-check">
-                        <span class="check-icon">✓</span>
-                        <div>
-                            <strong>Consistency</strong>
-                            <p>Stock levels verified and updated correctly</p>
-                        </div>
-                    </div>
-                    <div class="acid-check">
-                        <span class="check-icon">✓</span>
-                        <div>
-                            <strong>Isolation</strong>
-                            <p>Transaction processed without interference</p>
-                        </div>
-                    </div>
-                    <div class="acid-check">
-                        <span class="check-icon">✓</span>
-                        <div>
-                            <strong>Durability</strong>
-                            <p>Order permanently saved to database</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="order-details">
                 <h2>Order Details</h2>
                 
                 <div class="customer-info">
                     <p><strong>Customer:</strong> {{ $order->customer_name }}</p>
-                    <p><strong>Email:</strong> {{ $order->customer_email }}</p>
+                    <p><strong>Contact:</strong> {{ $order->contact_number }}</p>
                     <p><strong>Date:</strong> {{ $order->created_at->format('F j, Y \a\t g:i A') }}</p>
                     <p><strong>Status:</strong> <span class="status-badge status-{{ $order->status }}">{{ ucfirst($order->status) }}</span></p>
                     @if($order->notes)
@@ -72,16 +37,16 @@
                             @foreach($order->items as $item)
                                 <tr>
                                     <td>{{ $item->product_name }}</td>
-                                    <td>${{ number_format($item->price, 2) }}</td>
+                                    <td>₱{{ number_format($item->price, 2) }}</td>
                                     <td>{{ $item->quantity }}</td>
-                                    <td>${{ number_format($item->subtotal, 2) }}</td>
+                                    <td>₱{{ number_format($item->subtotal, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td colspan="3"><strong>Total</strong></td>
-                                <td><strong>${{ number_format($order->total_amount, 2) }}</strong></td>
+                                <td><strong>₱{{ number_format($order->total_amount, 2) }}</strong></td>
                             </tr>
                         </tfoot>
                     </table>

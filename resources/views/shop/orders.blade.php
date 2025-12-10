@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order History - ShopApp')
+@section('title', 'Order History - Buttercloud Bakery')
 
 @section('content')
     <h1 class="page-title">Order History</h1>
@@ -14,12 +14,6 @@
                 <a href="{{ route('shop.index') }}" class="btn btn-primary" style="width: auto;">Start Shopping</a>
             </div>
         @else
-            <div class="acid-notice">
-                <strong>🔒 Data Integrity Guaranteed:</strong> 
-                All orders below were processed using ACID-compliant transactions, 
-                ensuring complete data integrity and consistency.
-            </div>
-
             @foreach($orders as $order)
                 <div class="order-card">
                     <div class="order-header">
@@ -35,14 +29,14 @@
                     <div class="order-body">
                         <div class="order-customer">
                             <p><strong>Customer:</strong> {{ $order->customer_name }}</p>
-                            <p><strong>Email:</strong> {{ $order->customer_email }}</p>
+                            <p><strong>Contact:</strong> {{ $order->contact_number }}</p>
                         </div>
                         
                         <div class="order-items-summary">
                             <strong>Items:</strong>
                             <ul>
                                 @foreach($order->items as $item)
-                                    <li>{{ $item->product_name }} × {{ $item->quantity }} - ${{ number_format($item->subtotal, 2) }}</li>
+                                    <li>{{ $item->product_name }} × {{ $item->quantity }} - ₱{{ number_format($item->subtotal, 2) }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -50,7 +44,7 @@
                     
                     <div class="order-footer">
                         <div class="order-total">
-                            <strong>Total: ${{ number_format($order->total_amount, 2) }}</strong>
+                            <strong>Total: ₱{{ number_format($order->total_amount, 2) }}</strong>
                         </div>
                         <a href="{{ route('order.confirmation', $order) }}" class="btn btn-secondary btn-sm">View Details</a>
                     </div>
@@ -120,7 +114,7 @@
 
         .order-info h3 {
             margin: 0;
-            color: #667eea;
+            color: #D9C4B0;
             font-size: 1rem;
         }
 
@@ -197,7 +191,7 @@
 
         .order-total {
             font-size: 1.1rem;
-            color: #667eea;
+            color: #D9C4B0;
         }
 
         .pagination-container {
