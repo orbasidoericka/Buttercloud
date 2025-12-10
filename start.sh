@@ -1,18 +1,14 @@
 #!/bin/bash
 
-# Create database directory if it doesn't exist
-mkdir -p database
-
-# Create SQLite database file if it doesn't exist
-if [ ! -f database/database.sqlite ]; then
-    touch database/database.sqlite
-    echo "Created new database.sqlite file"
-fi
+echo "Starting Buttercloud Bakery..."
+echo "Database connection: $DB_CONNECTION"
 
 # Run migrations
+echo "Running migrations..."
 php artisan migrate --force
 
 # Seed database only if products table is empty
+echo "Checking if seeding is needed..."
 php artisan db:seed --class=ProductSeeder --force
 
 # Cache configuration
