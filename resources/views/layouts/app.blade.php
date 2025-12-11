@@ -158,13 +158,19 @@
         .product-image {
             width: 100%;
             height: 200px;
-            object-fit: cover;
             background: linear-gradient(135deg, #ECEEDF 0%, #BBDCE5 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #D9C4B0;
             font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .product-info {
