@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
                 'description' => 'Soft, gooey cinnamon roll with cream cheese frosting. A sweet breakfast favorite.',
                 'price' => 80.00,
                 'stock' => 20,
-                'image' => 'donut.jpg',
+                'image' => 'cinnamon.jpg',
             ],
             [
                 'name' => 'Almond Croissant',
@@ -63,14 +63,14 @@ class ProductSeeder extends Seeder
                 'description' => 'Flaky puff pastry filled with spiced apple filling and dusted with cinnamon sugar.',
                 'price' => 60.00,
                 'stock' => 28,
-                'image' => 'product-6.jpg',
+                'image' => 'appleutrnover.jpg',
             ],
             [
                 'name' => 'Lemon Tart',
                 'description' => 'Tangy lemon curd in a buttery shortbread crust, topped with toasted meringue.',
                 'price' => 95.00,
                 'stock' => 15,
-                'image' => 'product-7.jpg',
+                'image' => 'lemon-tart.jpg',
             ],
             [
                 'name' => 'Chocolate Chip Scone',
