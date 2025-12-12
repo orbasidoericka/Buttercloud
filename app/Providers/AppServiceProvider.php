@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Enforce secure session cookies when appropriate
+        $appUrl = env('APP_URL') ?: config('app.url');
+        if ($appUrl && str_starts_with($appUrl, 'https')) {
+            config(['session.secure' => true]);
+        }
     }
 }
