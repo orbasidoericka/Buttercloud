@@ -33,6 +33,4 @@ RUN chmod -R 777 storage bootstrap/cache
 EXPOSE 8080
 
 # Start application
-CMD php artisan migrate --force && \
-    php artisan db:seed --class=ProductSeeder --force && \
-    php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
