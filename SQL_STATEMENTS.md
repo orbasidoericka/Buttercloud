@@ -70,8 +70,9 @@ SELECT * FROM products WHERE id = ? FOR UPDATE;
 
 ### Get Orders with Items (JOIN)
 ```sql
--- Main query
+-- Main query (filtered by authenticated user)
 SELECT * FROM orders 
+WHERE user_id = ?
 ORDER BY created_at DESC 
 LIMIT 10 OFFSET 0;
 
@@ -80,8 +81,9 @@ SELECT * FROM order_items
 WHERE order_id IN (?, ?, ...);
 ```
 **Location:** `CheckoutController.php` - `history()` method  
-**Purpose:** Display order history with pagination  
-**Laravel Code:** `Order::with('items')->orderBy('created_at', 'desc')->paginate(10)`
+**Purpose:** Display order history for current user only with pagination  
+**Laravel Code:** `Order::with('items')->where('user_id', auth()->id())->orderBy('created_at', 'desc')->paginate(10)`  
+**Security:** Users can only view their own orders, not all orders
 
 ---
 
@@ -90,7 +92,8 @@ WHERE order_id IN (?, ?, ...);
 ### Create Order
 ```sql
 INSERT INTO orders (
-    order_number, 
+    order_number,
+    user_id,
     customer_name, 
     contact_number, 
     total_amount, 
@@ -98,17 +101,19 @@ INSERT INTO orders (
     notes, 
     created_at, 
     updated_at
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
 ```
 **Location:** `CheckoutController.php` - `process()` method  
-**Purpose:** Record new customer order  
-**Laravel Code:** `Order::create([...])`
+**Purpose:** Record new customer order linked to authenticated user  
+**Laravel Code:** `Order::create([...])`  
+**Note:** `user_id` is NOT NULL and links to the authenticated user who placed the order
 
 **Example Values:**
 ```sql
 INSERT INTO orders VALUES (
     'ORD-20251213-001',    -- order_number
-    'John Doe',            -- customer_name
+    1,                     -- user_id (NOT NULL)
+    'Ericka A. Orbasido',  -- customer_name
     '09123456789',         -- contact_number
     375.00,                -- total_amount
     'completed',           -- status
@@ -208,11 +213,12 @@ WHERE id = 2;
 
 -- 5. CREATE ORDER
 INSERT INTO orders (
-    order_number, customer_name, contact_number, 
+    order_number, user_id, customer_name, contact_number, 
     total_amount, status, notes, created_at, updated_at
 ) VALUES (
     'ORD-20251213-001',
-    'John Doe',
+    1,  -- user_id (NOT NULL - from auth()->id())
+    'Ericka A. Orbasido',
     '09123456789',
     375.00,
     'completed',
@@ -388,6 +394,63 @@ ROLLBACK;
 
 ---
 
+## **Authentication & User Queries**
+
+### User Login (Remember Me)
+```sql
+-- Authenticate user
+SELECT * FROM users 
+WHERE email = ? 
+LIMIT 1;
+
+-- Update remember token (if "Remember Me" is checked)
+UPDATE users 
+SET remember_token = ?, 
+    updated_at = ? 
+WHERE id = ?;
+```
+**Location:** `AuthController.php` - `login()` method  
+**Purpose:** Authenticate user and optionally set remember token for persistent login  
+**Laravel Code:** `Auth::attempt($credentials, $request->boolean('remember'))`
+
+### User Registration
+```sql
+INSERT INTO users (
+    name,
+    email,
+    password,
+    created_at,
+    updated_at
+) VALUES (?, ?, ?, ?, ?);
+```
+**Location:** `AuthController.php` - `register()` method  
+**Purpose:** Create new user account  
+**Note:** Passwords are hashed using bcrypt before storage
+
+---
+
+## **Database Schema Changes**
+
+### Tables Removed (Unnecessary)
+The following tables have been dropped as they are not used in this application:
+- `cache` - Not using cache driver
+- `cache_locks` - Not using cache driver
+- `failed_jobs` - Not using queue system
+- `jobs` - Not using queue system
+- `job_batches` - Not using queue system
+- `sessions` - Using database sessions (table removed, using cookies instead)
+
+### Columns Removed
+- `users.email_verified_at` - Email verification not implemented
+
+### Columns Modified
+- `orders.user_id` - Changed from NULLABLE to NOT NULL
+  - Foreign key changed from `onDelete('set null')` to `onDelete('cascade')`
+  - All orders must be associated with a user
+  - If user is deleted, their orders are also deleted
+
+---
+
 ## **Query Performance Notes**
 
 ### Indexes Used
@@ -396,10 +459,12 @@ ROLLBACK;
 PRIMARY KEY (id) ON products
 PRIMARY KEY (id) ON orders
 PRIMARY KEY (id) ON order_items
+PRIMARY KEY (id) ON users
 
 -- Foreign keys (indexes for joins):
 INDEX (order_id) ON order_items
 INDEX (product_id) ON order_items
+INDEX (user_id) ON orders
 ```
 
 ### Optimized Queries
