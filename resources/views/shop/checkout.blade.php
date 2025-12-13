@@ -62,6 +62,18 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="address">Delivery Address *</label>
+                        <textarea id="address" 
+                                  name="address" 
+                                  rows="3"
+                                  required
+                                  placeholder="Enter your complete delivery address...">{{ old('address', auth()->user()->address) }}</textarea>
+                        @error('address')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="notes">Order Notes (Optional)</label>
                         <textarea id="notes" 
                                   name="notes" 

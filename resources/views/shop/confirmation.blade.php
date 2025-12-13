@@ -15,6 +15,9 @@
                 <div class="customer-info">
                     <p><strong>Customer:</strong> {{ $order->customer_name }}</p>
                     <p><strong>Contact:</strong> {{ $order->contact_number }}</p>
+                    @if($order->address)
+                        <p><strong>Delivery Address:</strong> {{ $order->address }}</p>
+                    @endif
                     <p><strong>Date:</strong> {{ $order->created_at->format('F j, Y \a\t g:i A') }}</p>
                     <p><strong>Status:</strong> <span class="status-badge status-{{ $order->status }}">{{ ucfirst($order->status) }}</span></p>
                     @if($order->notes)
