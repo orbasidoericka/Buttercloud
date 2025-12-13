@@ -33,7 +33,7 @@
         }
 
         .auth-left {
-            background: linear-gradient(135deg, rgba(236, 238, 223, 0.9) 0%, rgba(187, 220, 229, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(139, 157, 143, 0.95) 0%, rgba(97, 142, 156, 0.95) 100%);
             padding: 3rem;
             display: flex;
             flex-direction: column;

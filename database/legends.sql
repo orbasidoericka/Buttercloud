@@ -1,10 +1,4 @@
 -- Buttercloud Bakery Database Schema
--- Updated: December 13, 2025
--- 
--- Tables removed: cache, cache_locks, failed_jobs, jobs, job_batches, sessions
--- Columns removed: users.email_verified_at
--- Schema changes: orders.user_id is now NOT NULL with CASCADE delete
---
 -- Host: 127.0.0.1
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
@@ -117,4 +111,4 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- (content continues) - trimmed for brevity
+

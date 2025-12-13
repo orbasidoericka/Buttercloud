@@ -33,7 +33,7 @@
         }
 
         .auth-left {
-            background: linear-gradient(135deg, rgba(236, 238, 223, 0.9) 0%, rgba(187, 220, 229, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(139, 157, 143, 0.95) 0%, rgba(97, 142, 156, 0.95) 100%);
             padding: 3rem;
             display: flex;
             flex-direction: column;
@@ -237,7 +237,7 @@
         <div class="auth-left">
             <div class="auth-left-content">
                 <h1>Login to Account</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut volutatis laboris id odit non consectetur neque numquam nostrum similique.</p>
+                <p>Welcome back to Buttercloud Bakery! Your favorite fresh-baked pastries and treats are just a click away. Sign in to continue your delicious journey.</p>
                 <p>Don't Have an Account? <a href="{{ route('register') }}">Create Account</a></p>
             </div>
         </div>
