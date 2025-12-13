@@ -269,6 +269,24 @@
             transform: scale(1.02);
         }
 
+        /* Product Action Button Hover Effect */
+        .product-action-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-action-btn .btn-text-hover {
+            display: none;
+        }
+
+        .product-card:hover .product-action-btn .btn-text-default {
+            display: none;
+        }
+
+        .product-card:hover .product-action-btn .btn-text-hover {
+            display: inline;
+        }
+
         .btn-danger {
             background: #dc3545;
             color: white;

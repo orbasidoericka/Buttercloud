@@ -30,7 +30,10 @@
                             {{ $product->stock > 0 ? $product->stock . ' in stock' : 'Out of stock' }}
                         </div>
                         @if($product->stock > 0)
-                            <button type="button" class="btn btn-primary" onclick="openModal({{ $product->id }}, '{{ $product->name }}', {{ $product->stock }}, {{ $product->price }})">Add to Cart</button>
+                            <button type="button" class="btn btn-primary product-action-btn" onclick="openModal({{ $product->id }}, '{{ $product->name }}', {{ $product->stock }}, {{ $product->price }})">
+                                <span class="btn-text-default">Add to Cart</span>
+                                <span class="btn-text-hover">Buy Now</span>
+                            </button>
                         @else
                             <button class="btn btn-secondary" disabled>Out of Stock</button>
                         @endif
