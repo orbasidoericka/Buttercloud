@@ -1,8 +1,3 @@
--- PostgreSQL Compatible SQL Dump
--- Original file generated from MySQL/MariaDB (phpMyAdmin 5.2.1)
-
--- 1. Remove MySQL SET commands (SQL_MODE, time_zone, CHARACTER_SET, etc.)
--- These are not recognized by PostgreSQL and cause errors.
 START TRANSACTION;
 
 -- --------------------------------------------------------

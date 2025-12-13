@@ -202,6 +202,7 @@ class CheckoutController extends Controller
                 
                 $order = Order::create([
                     'order_number' => Order::generateOrderNumber(),
+                    'user_id' => auth()->id(),
                     'customer_name' => $validated['customer_name'],
                     'contact_number' => $validated['contact_number'],
                     'total_amount' => $totalAmount,
@@ -289,9 +290,10 @@ class CheckoutController extends Controller
      */
     public function history()
     {
-        // SQL: SELECT * FROM orders ORDER BY created_at DESC LIMIT 10 OFFSET 0
+        // SQL: SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC LIMIT 10 OFFSET 0
         // SQL: SELECT * FROM order_items WHERE order_id IN (?, ?, ...)
         $orders = Order::with('items')
+            ->where('user_id', auth()->id())
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
