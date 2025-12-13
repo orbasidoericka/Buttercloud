@@ -1,0 +1,22 @@
+<?php
+// Test which database Railway is actually using
+echo "Environment: " . (getenv('APP_ENV') ?: env('APP_ENV', 'unknown')) . "\n";
+echo "DB Connection: " . (getenv('DB_CONNECTION') ?: env('DB_CONNECTION', 'not set')) . "\n";
+echo "DATABASE_URL: " . (getenv('DATABASE_URL') ? 'SET' : 'NOT SET') . "\n";
+echo "DB_HOST: " . (getenv('DB_HOST') ?: env('DB_HOST', 'not set')) . "\n";
+echo "DB_DATABASE: " . (getenv('DB_DATABASE') ?: env('DB_DATABASE', 'not set')) . "\n";
+
+try {
+    $pdo = DB::connection()->getPdo();
+    echo "\nConnected to: " . DB::connection()->getDatabaseName() . "\n";
+    echo "Driver: " . DB::connection()->getDriverName() . "\n";
+    
+    $products = DB::table('products')->count();
+    echo "Products in database: $products\n";
+    
+    $orders = DB::table('orders')->count();
+    echo "Orders in database: $orders\n";
+    
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage() . "\n";
+}

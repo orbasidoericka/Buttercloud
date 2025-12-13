@@ -29,6 +29,7 @@ class CheckoutController extends Controller
         $hasStockIssues = false;
 
         foreach ($cart as $id => $quantity) {
+            // SQL: SELECT * FROM products WHERE id = ? LIMIT 1
             $product = Product::find($id);
             if ($product) {
                 // Check stock availability
@@ -104,6 +105,8 @@ class CheckoutController extends Controller
             // ACID TRANSACTION START
             // ============================================================
             // 
+            // SQL: BEGIN; (or START TRANSACTION;)
+            // 
             // Using DB::transaction() ensures:
             // - ATOMICITY: All or nothing - if any operation fails, everything rolls back
             // - DURABILITY: Once committed, data persists even on system failure
@@ -130,6 +133,7 @@ class CheckoutController extends Controller
                 foreach ($cart as $productId => $quantity) {
                     // Lock the product row for this transaction
                     // Other concurrent transactions will wait until this completes
+                    // SQL: SELECT * FROM products WHERE id = ? FOR UPDATE
                     $product = Product::lockForUpdate()->find($productId);
 
                     if (!$product) {
@@ -173,6 +177,8 @@ class CheckoutController extends Controller
                     // Using decrement() is atomic at the database level.
                     // Combined with the transaction, this ensures stock is only
                     // reduced if the entire checkout succeeds.
+                    // 
+                    // SQL: UPDATE products SET stock = stock - ?, updated_at = ? WHERE id = ?
                     // ============================================================
 
                     $product->decrement('stock', $quantity);
@@ -188,6 +194,10 @@ class CheckoutController extends Controller
 
                 // ============================================================
                 // CREATE ORDER (within transaction)
+                // 
+                // SQL: INSERT INTO orders (order_number, customer_name, contact_number, 
+                //       total_amount, status, notes, created_at, updated_at) 
+                //       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 // ============================================================
                 
                 $order = Order::create([
@@ -201,6 +211,10 @@ class CheckoutController extends Controller
 
                 // ============================================================
                 // CREATE ORDER ITEMS (within transaction)
+                // 
+                // SQL: INSERT INTO order_items (order_id, product_id, product_name, 
+                //       price, quantity, subtotal, created_at, updated_at)
+                //       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 // ============================================================
                 
                 foreach ($orderItems as $item) {
@@ -222,6 +236,8 @@ class CheckoutController extends Controller
             // ACID TRANSACTION END - SUCCESS
             // ============================================================
             // 
+            // SQL: COMMIT;
+            // 
             // If we reach this point:
             // - All stock has been reduced
             // - Order has been created
@@ -239,6 +255,8 @@ class CheckoutController extends Controller
             // ============================================================
             // ACID TRANSACTION - ROLLBACK
             // ============================================================
+            // 
+            // SQL: ROLLBACK;
             // 
             // If any exception was thrown:
             // - All database changes are ROLLED BACK (ATOMICITY)
@@ -271,6 +289,8 @@ class CheckoutController extends Controller
      */
     public function history()
     {
+        // SQL: SELECT * FROM orders ORDER BY created_at DESC LIMIT 10 OFFSET 0
+        // SQL: SELECT * FROM order_items WHERE order_id IN (?, ?, ...)
         $orders = Order::with('items')
             ->orderBy('created_at', 'desc')
             ->paginate(10);

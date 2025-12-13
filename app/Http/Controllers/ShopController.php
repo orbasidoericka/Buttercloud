@@ -9,6 +9,7 @@ class ShopController extends Controller
 {
     public function index()
     {
+        // SQL: SELECT * FROM products
         $products = Product::all();
         return view('shop.index', compact('products'));
     }
@@ -21,6 +22,7 @@ class ShopController extends Controller
         $hasStockIssues = false;
 
         foreach ($cart as $id => $quantity) {
+            // SQL: SELECT * FROM products WHERE id = ? LIMIT 1
             $product = Product::find($id);
             if ($product) {
                 // Check if quantity exceeds available stock
