@@ -58,14 +58,44 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            try {
-                $request->session()->regenerate();
-            } catch (\Exception $e) {
-                // Log the session regeneration error but continue (do not expose internal error to users)
-                logger()->error('Session regeneration failed during login: ' . $e->getMessage());
+        try {
+            if (Auth::attempt($credentials, $request->boolean('remember'))) {
+                try {
+                    $request->session()->regenerate();
+                } catch (\Exception $e) {
+                    // Log the session regeneration error but continue (do not expose internal error to users)
+                    logger()->error('Session regeneration failed during login: ' . $e->getMessage());
+                }
+                return redirect()->intended(route('shop.index'))->with('success', 'Logged in.');
             }
-            return redirect()->intended(route('shop.index'))->with('success', 'Logged in.');
+        } catch (\RuntimeException $e) {
+            // Fallback: some user passwords may be hashed with a different algorithm (e.g., Argon2).
+            // If the default hasher is strict (bcrypt verify enabled), Auth::attempt will throw a RuntimeException.
+            // Try a tolerant verification with PHP's password_verify and, on success, re-hash with the app hasher and proceed.
+            if (str_contains($e->getMessage(), 'Bcrypt') || str_contains($e->getMessage(), 'bcrypt')) {
+                $user = \App\Models\User::where('email', $credentials['email'])->first();
+                if ($user && is_string($user->password)) {
+                    try {
+                        if (password_verify($credentials['password'], $user->password)) {
+                            // Log a note and re-hash the password with the application's hasher.
+                            logger()->warning('Password verified using PHP fallback for user ' . $user->email . '. Re-hashing to current hasher.');
+                            $user->password = \Illuminate\Support\Facades\Hash::make($credentials['password']);
+                            $user->save();
+
+                            // Log the user in and continue
+                            Auth::login($user, $request->boolean('remember'));
+                            try {
+                                $request->session()->regenerate();
+                            } catch (\Exception $e) {
+                                logger()->error('Session regeneration failed during fallback login: ' . $e->getMessage());
+                            }
+                            return redirect()->intended(route('shop.index'))->with('success', 'Logged in.');
+                        }
+                    } catch (\Exception $inner) {
+                        logger()->error('Fallback password_verify failed: ' . $inner->getMessage());
+                    }
+                }
+            }
         }
 
         return back()->with('error', 'Login failed — check your credentials.');
