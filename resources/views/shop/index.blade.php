@@ -127,51 +127,77 @@
 
         // Buy Now Modal Functions
         function openBuyNowModal(productId, productName, stock, price) {
-            document.getElementById('buyNowModal').style.display = 'block';
-            document.getElementById('buyNowModalProductName').textContent = productName;
-            document.getElementById('buyNowModalProductPrice').textContent = parseFloat(price).toFixed(2);
-            document.getElementById('buyNowModalProductStock').textContent = stock;
-            document.getElementById('buyNowQuantity').value = 1;
-            document.getElementById('buyNowQuantity').max = stock;
-            
-            // Buy Now form submits to add to cart then redirects to checkout
-            document.getElementById('buyNowForm').onsubmit = function(e) {
-                e.preventDefault();
-                const quantity = document.getElementById('buyNowQuantity').value;
-                const formData = new FormData();
-                formData.append('quantity', quantity);
-                formData.append('_token', '{{ csrf_token() }}');
-                
-                // Add to cart via fetch
-                fetch('/cart/add/' + productId, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+            // First, check current stock via AJAX
+            fetch('/product/' + productId + '/stock')
+                .then(response => response.json())
+                .then(stockData => {
+                    const currentStock = stockData.stock || stock;
+                    
+                    if (currentStock <= 0) {
+                        alert(productName + ' is currently out of stock!');
+                        return;
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Redirect to checkout page
-                        window.location.href = '/checkout';
-                    } else {
-                        alert(data.error || 'An error occurred. Please try again.');
-                    }
+
+                    document.getElementById('buyNowModal').style.display = 'block';
+                    document.getElementById('buyNowModalProductName').textContent = productName;
+                    document.getElementById('buyNowModalProductPrice').textContent = parseFloat(price).toFixed(2);
+                    document.getElementById('buyNowModalProductStock').textContent = currentStock;
+                    document.getElementById('buyNowQuantity').value = 1;
+                    document.getElementById('buyNowQuantity').max = currentStock;
+                    
+                    // Buy Now form submits to add to cart then redirects to checkout
+                    document.getElementById('buyNowForm').onsubmit = function(e) {
+                        e.preventDefault();
+                        const quantity = document.getElementById('buyNowQuantity').value;
+                        const formData = new FormData();
+                        formData.append('quantity', quantity);
+                        formData.append('_token', '{{ csrf_token() }}');
+                        
+                        // Add to cart via fetch
+                        fetch('/cart/add/' + productId, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: formData
+                        })
+                        .then(response => {
+                            return response.json().then(data => {
+                                if (!response.ok) {
+                                    throw new Error(data.error || 'Server error occurred');
+                                }
+                                return data;
+                            });
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // Close modal and redirect to checkout page
+                                closeBuyNowModal();
+                                window.location.href = '/checkout';
+                            } else {
+                                alert(data.error || 'An error occurred. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Buy Now Error:', error);
+                            alert(error.message || 'An error occurred. Please try again.');
+                        });
+                    };
+                    
+                    buyNowMaxStock = currentStock;
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred. Please try again.');
+                    console.error('Stock check error:', error);
+                    // Fallback to original behavior
+                    document.getElementById('buyNowModal').style.display = 'block';
+                    document.getElementById('buyNowModalProductName').textContent = productName;
+                    document.getElementById('buyNowModalProductPrice').textContent = parseFloat(price).toFixed(2);
+                    document.getElementById('buyNowModalProductStock').textContent = stock;
+                    document.getElementById('buyNowQuantity').value = 1;
+                    document.getElementById('buyNowQuantity').max = stock;
+                    buyNowMaxStock = stock;
                 });
-            };
-            
-            buyNowMaxStock = stock;
         }
 
         function closeBuyNowModal() {

@@ -125,4 +125,12 @@ class ShopController extends Controller
         session()->forget('cart');
         return redirect()->back()->with('success', 'Cart cleared!');
     }
+
+    public function getProductStock(Product $product)
+    {
+        return response()->json([
+            'stock' => $product->stock,
+            'name' => $product->name
+        ]);
+    }
 }

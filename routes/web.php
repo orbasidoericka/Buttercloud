@@ -19,6 +19,9 @@ Route::middleware(['web', SecurityHeaders::class])->group(function () {
 	Route::patch('/cart/update/{product}', [ShopController::class, 'updateCart'])->name('cart.update');
 	Route::delete('/cart/clear', [ShopController::class, 'clearCart'])->name('cart.clear');
 
+	// API for stock checking
+	Route::get('/product/{product}/stock', [ShopController::class, 'getProductStock'])->name('product.stock');
+
 	// Checkout routes (ACID-compliant transactions) — require authentication
 	Route::middleware('auth')->group(function () {
 		Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
