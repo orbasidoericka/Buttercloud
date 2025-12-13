@@ -176,6 +176,9 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .product-card:hover {
@@ -185,7 +188,7 @@
 
         .product-image {
             width: 100%;
-            height: 200px;
+            height: 220px;
             background: linear-gradient(135deg, #ECEEDF 0%, #BBDCE5 100%);
             display: flex;
             align-items: center;
@@ -193,6 +196,7 @@
             color: #D9C4B0;
             font-size: 3rem;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .product-image img {
@@ -202,33 +206,41 @@
         }
 
         .product-info {
-            padding: 1.5rem;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
         }
 
         .product-name {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: #333;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .product-description {
             color: #555;
-            font-size: 0.95rem;
+            font-size: 0.875rem;
             margin-bottom: 1rem;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            line-height: 1.5;
+            line-height: 1.6;
+            flex-grow: 1;
+            min-height: 4rem;
         }
 
         .product-price {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: bold;
             color: #D9C4B0;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
         }
 
@@ -236,6 +248,7 @@
             font-size: 0.85rem;
             color: #28a745;
             margin-bottom: 1rem;
+            font-weight: 500;
         }
 
         .product-stock.low {
