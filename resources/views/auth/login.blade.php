@@ -279,10 +279,6 @@
                     <label for="remember">Remember Me</label>
                 </div>
 
-                <div class="forgot-password">
-                    <a href="#">Forgot Password?</a>
-                </div>
-
                 <button type="submit" class="btn-login">Login Account</button>
             </form>
         </div>
