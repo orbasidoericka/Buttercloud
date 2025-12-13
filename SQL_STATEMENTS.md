@@ -421,9 +421,3 @@ INDEX (product_id) ON order_items
 | Stock validation | Consistency | Prevent negative stock |
 | Transaction wrapper | All 4 | Ensure data integrity |
 
----
-
-**Generated for:** Buttercloud Bakery - ACID Concurrency Control System  
-**Date:** December 13, 2025  
-**Framework:** Laravel with MySQL/MariaDB  
-**Database:** Railway MySQL (Production)

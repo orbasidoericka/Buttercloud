@@ -85,6 +85,33 @@
             font-size: 0.8rem;
         }
 
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-logout {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .user-welcome {
+            color: white;
+            font-weight: 500;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -600,15 +627,15 @@
                     @endif
                 </a>
                 @auth
-                    <span style="color:white;margin-left:1rem;">Hi, {{ Auth::user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}" style="display:inline;margin-left:1rem;">
+                    <span class="user-welcome">Hi, {{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
                         @csrf
-                        <button type="submit" class="btn btn-sm" style="background:rgba(255,255,255,0.15);border-radius:6px;color:white;padding:0.5rem 0.75rem;border:none;">Logout</button>
+                        <button type="submit" class="btn-logout">Logout</button>
                     </form>
                 @endauth
                 @guest
-                    <a href="{{ route('login') }}" style="margin-left:1rem;">Login</a>
-                    <a href="{{ route('register') }}" style="margin-left:0.7rem;">Register</a>
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Register</a>
                 @endguest
             </div>
         </div>
