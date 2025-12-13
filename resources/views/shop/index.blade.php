@@ -138,20 +138,32 @@
             document.getElementById('buyNowForm').onsubmit = function(e) {
                 e.preventDefault();
                 const quantity = document.getElementById('buyNowQuantity').value;
+                const formData = new FormData();
+                formData.append('quantity', quantity);
+                formData.append('_token', '{{ csrf_token() }}');
                 
                 // Add to cart via fetch
                 fetch('/cart/add/' + productId, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
-                    body: JSON.stringify({ quantity: quantity })
+                    body: formData
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    // Redirect to checkout page
-                    window.location.href = '/checkout';
+                    if (data.success) {
+                        // Redirect to checkout page
+                        window.location.href = '/checkout';
+                    } else {
+                        alert(data.error || 'An error occurred. Please try again.');
+                    }
                 })
                 .catch(error => {
                     console.error('Error:', error);
