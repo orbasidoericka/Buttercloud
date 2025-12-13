@@ -33,6 +33,11 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        try {
+            $request->session()->regenerate();
+        } catch (\Exception $e) {
+            logger()->error('Session regeneration failed during register: ' . $e->getMessage());
+        }
 
         return redirect()->route('shop.index')->with('success', 'Account created and logged in.');
     }
@@ -54,7 +59,12 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+            try {
+                $request->session()->regenerate();
+            } catch (\Exception $e) {
+                // Log the session regeneration error but continue (do not expose internal error to users)
+                logger()->error('Session regeneration failed during login: ' . $e->getMessage());
+            }
             return redirect()->intended(route('shop.index'))->with('success', 'Logged in.');
         }
 
@@ -64,8 +74,12 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        try {
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        } catch (\Exception $e) {
+            logger()->error('Session invalidation failed during logout: ' . $e->getMessage());
+        }
         return redirect()->route('shop.index')->with('success', 'Logged out.');
     }
 }

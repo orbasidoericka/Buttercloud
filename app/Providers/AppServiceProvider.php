@@ -30,5 +30,10 @@ class AppServiceProvider extends ServiceProvider
         if ($appUrl && str_starts_with($appUrl, 'https')) {
             config(['session.secure' => true]);
         }
+
+        // Log a warning if APP_KEY is missing to help debug session/cookie failures
+        if (empty(config('app.key'))) {
+            logger()->warning('APP_KEY is not set. Session encryption and cookie signing may fail. Set APP_KEY in your environment variables.');
+        }
     }
 }

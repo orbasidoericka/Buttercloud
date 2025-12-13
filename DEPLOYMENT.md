@@ -44,7 +44,7 @@ In your Railway project dashboard:
 ```env
 APP_NAME="Buttercloud Bakery"
 APP_ENV=production
-APP_KEY=base64:GENERATE_THIS_KEY
+APP_KEY=base64:GENERATE_THIS_KEY  # REQUIRED - set application key for cookie/session signing
 APP_DEBUG=false
 APP_URL=https://your-app.up.railway.app
 
@@ -213,13 +213,16 @@ Notes:
 
 ### Application Key Error
 If you see "No application encryption key has been specified":
-```powershell
-# Generate key locally
-php artisan key:generate --show
 
-# Add to Railway environment variables
-APP_KEY=base64:YourGeneratedKeyHere
+1) Generate a key locally using the command below, copy the output and paste it into Railway environment variables as `APP_KEY`.
+
+```powershell
+php artisan key:generate --show
 ```
+
+2) Add the `APP_KEY` to Railway environment variables (or your hosting provider env). `APP_KEY` is required for session and cookie encryption — without it, login or session-based operations can trigger a 500 error.
+
+Tip: If you're using Railway, set `SESSION_DRIVER=cookie` unless you have a `sessions` DB table and want to use the database driver.
 
 ### 500 Error
 1. Check Railway logs: Click on your service → "Logs"
