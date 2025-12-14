@@ -62,6 +62,19 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="address">Address *</label>
+                        <input type="text"
+                               id="address"
+                               name="address"
+                               value="{{ old('address') }}"
+                               required
+                               placeholder="Street, Barangay, City, Province">
+                        @error('address')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
                         <label for="notes">Order Notes (Optional)</label>
                         <textarea id="notes" 
                                   name="notes" 
