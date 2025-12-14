@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Buttercloud Bakery</title>
+    <title>Register - ButterCloud Bakery</title>
     <style>
         * {
             margin: 0;
@@ -206,7 +206,7 @@
         <div class="auth-left">
             <div class="auth-left-content">
                 <h1>Create Account</h1>
-                <p>Join Buttercloud Bakery today and enjoy fresh pastries delivered to your door. Create your account to get started!</p>
+                <p>Join ButterCloud Bakery today and enjoy fresh pastries delivered to your door. Create your account to get started!</p>
                 <p>Already Have an Account? <a href="{{ route('login') }}">Login Here</a></p>
             </div>
         </div>
@@ -247,7 +247,7 @@
                     <label for="password">Password</label>
                     <div class="input-wrapper">
                         <input type="password" id="password" name="password" placeholder="••••••••••••••••" required>
-                        <span class="input-icon">🔒</span>
+                        <span class="input-icon">👁️</span>
                     </div>
                 </div>
 
@@ -255,7 +255,7 @@
                     <label for="password_confirmation">Confirm Password</label>
                     <div class="input-wrapper">
                         <input type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••••••••••" required>
-                        <span class="input-icon">🔒</span>
+                        <span class="input-icon">👁️</span>
                     </div>
                 </div>
 

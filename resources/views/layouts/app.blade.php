@@ -718,5 +718,30 @@
     <footer>
         <p>&copy; {{ date('Y') }} ButterCloud Bakery. Freshly baked with love.</p>
     </footer>
+    
+    <script>
+        // Password visibility toggle for any password input with an .input-icon sibling
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.input-wrapper').forEach(function(wrapper) {
+                var input = wrapper.querySelector('input[type="password"]');
+                var icon = wrapper.querySelector('.input-icon');
+                if (!input || !icon) return;
+
+                icon.style.cursor = 'pointer';
+                icon.setAttribute('role', 'button');
+                icon.setAttribute('aria-label', 'Toggle password visibility');
+
+                icon.addEventListener('click', function () {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.textContent = '🙈';
+                    } else {
+                        input.type = 'password';
+                        icon.textContent = '👁️';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
