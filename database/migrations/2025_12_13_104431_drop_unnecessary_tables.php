@@ -11,11 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('cache');
-        Schema::dropIfExists('cache_locks');
-        Schema::dropIfExists('failed_jobs');
-        Schema::dropIfExists('jobs');
-        Schema::dropIfExists('job_batches');
+        // The following drops are potentially destructive. By default we skip
+        // dropping them unless the environment explicitly opts in via
+        // FORCE_DROP_UNNECESSARY_TABLES=true. This prevents accidental data loss.
+        $forceDrop = filter_var(env('FORCE_DROP_UNNECESSARY_TABLES', false), FILTER_VALIDATE_BOOLEAN);
+
+        if ($forceDrop) {
+            Schema::dropIfExists('cache');
+            Schema::dropIfExists('cache_locks');
+            Schema::dropIfExists('failed_jobs');
+            Schema::dropIfExists('jobs');
+            Schema::dropIfExists('job_batches');
+            Schema::dropIfExists('password_reset_tokens');
+        }
 
         // Protect sessions table in environments that use database-backed sessions.
         // If you *really* want to drop sessions, set FORCE_DROP_SESSIONS=true in env.
