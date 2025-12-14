@@ -48,6 +48,16 @@
                     </div>
                             <script>
                                 document.addEventListener('DOMContentLoaded', function () {
+                                    function debounce(fn, wait) {
+                                        let t;
+                                        const debounced = function (...args) {
+                                            clearTimeout(t);
+                                            t = setTimeout(() => fn.apply(this, args), wait);
+                                        };
+                                        debounced.cancel = () => clearTimeout(t);
+                                        return debounced;
+                                    }
+
                                     function updateQtyOnServer(productId, newQty, controls) {
                                         const url = '/cart/update/' + productId;
                                         const formData = new URLSearchParams();
@@ -65,8 +75,11 @@
                                         .then(res => res.json())
                                         .then(data => {
                                             if (data.success) {
-                                                // update the quantity input
+                                                // Update the quantity input and button states
                                                 controls.input.value = data.quantity;
+                                                controls.decrement.disabled = data.quantity <= 1;
+                                                controls.increment.disabled = data.quantity >= parseInt(controls.container.getAttribute('data-max'));
+
                                                 // update subtotal for this item
                                                 const row = controls.container.closest('.cart-item');
                                                 const subtotalEl = row.querySelector('.cart-item-subtotal');
@@ -75,12 +88,12 @@
                                                 const totalEl = document.querySelector('.cart-total span');
                                                 if (totalEl) totalEl.textContent = '₱' + data.total;
                                             } else {
-                                                alert(data.message || 'Could not update cart.');
+                                                // show non-blocking message
+                                                console.warn(data.message || 'Could not update cart.');
                                             }
                                         })
                                         .catch(err => {
                                             console.error('Update qty error', err);
-                                            alert('Could not update cart.');
                                         });
                                     }
 
@@ -91,12 +104,20 @@
                                         const dec = container.querySelector('.qty-decrement');
                                         const inc = container.querySelector('.qty-increment');
 
-                                        const controls = {container, input};
+                                        const controls = {container, input, decrement: dec, increment: inc};
+
+                                        // Initialize disabled state
+                                        dec.disabled = parseInt(input.value) <= 1;
+                                        inc.disabled = parseInt(input.value) >= max;
 
                                         dec.addEventListener('click', function () {
                                             let current = parseInt(input.value) || 0;
                                             if (current > 1) {
                                                 const newQty = current - 1;
+                                                // optimistic update
+                                                input.value = newQty;
+                                                dec.disabled = newQty <= 1;
+                                                inc.disabled = newQty >= max;
                                                 updateQtyOnServer(productId, newQty, controls);
                                             }
                                         });
@@ -105,7 +126,39 @@
                                             let current = parseInt(input.value) || 0;
                                             if (current < max) {
                                                 const newQty = current + 1;
+                                                // optimistic update
+                                                input.value = newQty;
+                                                dec.disabled = newQty <= 1;
+                                                inc.disabled = newQty >= max;
                                                 updateQtyOnServer(productId, newQty, controls);
+                                            }
+                                        });
+
+                                        // Allow typing with debounce and validation
+                                        const debouncedUpdate = debounce(function () {
+                                            let val = parseInt(input.value);
+                                            if (isNaN(val) || val < 1) val = 1;
+                                            if (val > max) val = max;
+                                            input.value = val;
+                                            dec.disabled = val <= 1;
+                                            inc.disabled = val >= max;
+                                            updateQtyOnServer(productId, val, controls);
+                                        }, 500);
+
+                                        input.addEventListener('input', debouncedUpdate);
+
+                                        // keyboard support: Enter commits immediately
+                                        input.addEventListener('keydown', function (e) {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                debouncedUpdate.cancel && debouncedUpdate.cancel();
+                                                let val = parseInt(input.value);
+                                                if (isNaN(val) || val < 1) val = 1;
+                                                if (val > max) val = max;
+                                                input.value = val;
+                                                dec.disabled = val <= 1;
+                                                inc.disabled = val >= max;
+                                                updateQtyOnServer(productId, val, controls);
                                             }
                                         });
                                     });
@@ -115,7 +168,7 @@
                         @if($item['product']->stock > 0)
                             <div class="qty-controls" data-product-id="{{ $item['product']->id }}" data-max="{{ $item['product']->stock }}">
                                 <button type="button" class="qty-btn qty-decrement" aria-label="Decrease">−</button>
-                                <input type="text" class="qty-input" value="{{ $item['available_quantity'] }}" readonly aria-label="Quantity for {{ $item['product']->name }}">
+                                <input type="number" class="qty-input" value="{{ $item['available_quantity'] }}" min="1" max="{{ $item['product']->stock }}" step="1" aria-label="Quantity for {{ $item['product']->name }}">
                                 <button type="button" class="qty-btn qty-increment" aria-label="Increase">+</button>
                             </div>
                         @else
