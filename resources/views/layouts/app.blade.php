@@ -257,7 +257,9 @@
 
         /* Buttons */
         .btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 8px;
@@ -669,7 +671,7 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="{{ route('shop.index') }}" class="logo">🧁 Buttercloud Bakery</a>
+            <a href="{{ route('shop.index') }}" class="logo">🧁 ButterCloud Bakery</a>
             <div class="nav-links">
                 <a href="{{ route('shop.index') }}">Products</a>
                 <a href="{{ route('orders.history') }}">Orders</a>
@@ -714,7 +716,7 @@
     </div>
 
     <footer>
-        <p>&copy; {{ date('Y') }} Buttercloud Bakery. Freshly baked with love.</p>
+        <p>&copy; {{ date('Y') }} ButterCloud Bakery. Freshly baked with love.</p>
     </footer>
 </body>
 </html>
