@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order Confirmed - Buttercloud Bakery')
+@section('title', 'Order Confirmed - ButterCloud Bakery')
 
 @section('content')
     <div class="confirmation-container">

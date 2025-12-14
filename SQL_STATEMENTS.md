@@ -1,6 +1,6 @@
-# SQL Statements - Buttercloud Bakery (ACID Implementation)
+# SQL Statements - ButterCloud Bakery (ACID Implementation)
 
-This document contains all SQL statements used in the Buttercloud Bakery shopping application, demonstrating ACID properties (Atomicity, Consistency, Isolation, Durability).
+This document contains all SQL statements used in the ButterCloud Bakery shopping application, demonstrating ACID properties (Atomicity, Consistency, Isolation, Durability).
 
 ---
 

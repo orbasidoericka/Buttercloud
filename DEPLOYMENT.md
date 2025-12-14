@@ -1,4 +1,4 @@
-# Deployment Guide - Buttercloud Bakery
+# Deployment Guide - ButterCloud Bakery
 
 This guide covers deploying your Laravel application to **Railway** (recommended for full-stack Laravel apps).
 
@@ -29,7 +29,7 @@ git push origin main
 1. **Go to [Railway.app](https://railway.app/)**
 2. **Click "Start a New Project"**
 3. **Select "Deploy from GitHub repo"**
-4. **Choose your repository:** `orbasidoericka/Cookie-ni-Tepay`
+4. **Choose your repository:** `orbasidoericka/ButterCloud-Bakery`
 5. **Railway will auto-detect Laravel** and use the nixpacks.toml configuration
 
 #### 3. Configure Environment Variables
@@ -42,7 +42,7 @@ In your Railway project dashboard:
 4. Add these variables:
 
 ```env
-APP_NAME="Buttercloud Bakery"
+APP_NAME="ButterCloud Bakery"
 APP_ENV=production
 APP_KEY=base64:GENERATE_THIS_KEY
 APP_DEBUG=false
@@ -252,7 +252,7 @@ git push origin main
 
 ## 🎉 Success!
 
-Your Buttercloud Bakery shop is now live on Railway! 
+Your ButterCloud Bakery shop is now live on Railway! 
 
 **Test the following features:**
 - Browse products at `/`

@@ -247,7 +247,7 @@
                     <label for="password">Password</label>
                     <div class="input-wrapper">
                         <input type="password" id="password" name="password" placeholder="••••••••••••••••" required>
-                        <span class="input-icon">👁️</span>
+                        <span class="input-icon">�</span>
                     </div>
                 </div>
 
@@ -255,7 +255,7 @@
                     <label for="password_confirmation">Confirm Password</label>
                     <div class="input-wrapper">
                         <input type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••••••••••" required>
-                        <span class="input-icon">👁️</span>
+                        <span class="input-icon">�</span>
                     </div>
                 </div>
 

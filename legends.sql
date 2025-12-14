@@ -1,4 +1,4 @@
--- Buttercloud Bakery Database Schema
+-- ButterCloud Bakery Database Schema
 -- Updated: December 13, 2025
 -- 
 -- This is the current database schema with unnecessary tables removed.

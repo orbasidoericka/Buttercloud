@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting Buttercloud Bakery..."
+echo "Starting ButterCloud Bakery..."
 echo "Database connection: $DB_CONNECTION"
 echo "Database host: $DB_HOST"
 

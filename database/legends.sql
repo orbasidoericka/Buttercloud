@@ -1,4 +1,4 @@
--- Buttercloud Bakery Database Schema
+-- ButterCloud Bakery Database Schema
 -- Host: 127.0.0.1
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12

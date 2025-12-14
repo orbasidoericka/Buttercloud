@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order History - Buttercloud Bakery')
+@section('title', 'Order History - ButterCloud Bakery')
 
 @section('content')
     <h1 class="page-title">Order History</h1>

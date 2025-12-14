@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Buttercloud Bakery</title>
+    <title>Login - ButterCloud Bakery</title>
     <style>
         * {
             margin: 0;
@@ -237,7 +237,7 @@
         <div class="auth-left">
             <div class="auth-left-content">
                 <h1>Login to Account</h1>
-                <p>Welcome back to Buttercloud Bakery! Your favorite fresh-baked pastries and treats are just a click away. Sign in to continue your delicious journey.</p>
+                <p>Welcome back to ButterCloud Bakery! Your favorite fresh-baked pastries and treats are just a click away. Sign in to continue your delicious journey.</p>
                 <p>Don't Have an Account? <a href="{{ route('register') }}">Create Account</a></p>
             </div>
         </div>

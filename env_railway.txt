@@ -4,7 +4,7 @@
 APP_DEBUG="false"
 APP_ENV="production"
 APP_KEY="base64:teE9QLJaBJlnDJ682vv3aZ6MbDQDNuqiusgOYV3e8bo="
-APP_NAME="Buttercloud Bakery"
+APP_NAME="ButterCloud Bakery"
 APP_URL="https://buttercloudbakery.up.railway.app"
 CACHE_STORE="file"
 DB_CONNECTION="mysql"

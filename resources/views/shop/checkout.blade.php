@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout - Buttercloud Bakery')
+@section('title', 'Checkout - ButterCloud Bakery')
 
 @section('content')
     <h1 class="page-title">Checkout</h1>
