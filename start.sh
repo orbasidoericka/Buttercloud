@@ -31,11 +31,11 @@ php artisan migrate --force || echo "Migration failed or already done"
 echo "Checking if seeding is needed..."
 php artisan db:seed --class=ProductSeeder --force || echo "Seeding failed or already done"
 
-# Cache configuration
+# Cache configuration (with runtime env vars available)
+echo "Caching configuration..."
 php artisan config:cache || true
 php artisan route:cache || true
-php artisan view:cache || true
 
 # Start the server
 echo "Starting server on port $PORT..."
-php -S 0.0.0.0:$PORT -t public
+php artisan serve --host=0.0.0.0 --port=$PORT
