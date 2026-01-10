@@ -51,7 +51,7 @@
             <p class="modal-price">₱<span id="cartModalProductPrice">0.00</span></p>
             <p class="modal-stock">Available: <span id="cartModalProductStock">0</span></p>
             
-            <form id="addToCartForm" method="POST">
+            <form id="addToCartForm" method="POST" action="#">
                 @csrf
                 <div class="quantity-selector">
                     <label for="cartQuantity">Quantity:</label>

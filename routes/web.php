@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', SecurityHeaders::class])->group(function () {
 	Route::get('/', [ShopController::class, 'index'])->name('shop.index');
+	// Safeguard: handle accidental POST to root to avoid 405 errors
+	Route::post('/', function () {
+		return redirect('/')->with('error', 'Invalid form submission. Please try again.');
+	});
 	Route::get('/cart', [ShopController::class, 'cart'])->name('shop.cart');
 	Route::post('/cart/add/{product}', [ShopController::class, 'addToCart'])->name('cart.add');
 	// Safeguard: handle accidental GETs to add-to-cart to avoid 405 errors
